@@ -14,16 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Will authenticate user before the other routers activate
+// Will authenticate user before the other routers run
 app.use(auth);
 app.use('/events', eventsRouter);
 app.use('/users', usersRouter);
-
-const arduinos = [
-    {
-        id: '9dki80',
-        user: 'Javier Loyola'
-    }
-]
 
 module.exports = app;

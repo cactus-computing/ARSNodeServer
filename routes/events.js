@@ -18,7 +18,7 @@ router.post('/', function(req, res, next) {
         weight: req.body['weight'],
 
         time: Date.now(),
-        arduino: 1337
+        arduino: req.arduino.id
     }
 
     // TODO: Actually get the user from lat and lon
@@ -28,7 +28,7 @@ router.post('/', function(req, res, next) {
         events.push(event);
         res.send(event);
     } else {
-        res.statusCode = 404
+        res.status(404);
         res.send( { error: "User not found" } )
     }
 });
@@ -42,7 +42,7 @@ router.get('/:id', function(req, res, next) {
     if (event) {
         res.send(event);
     } else {
-        res.statusCode = 404;
+        res.status(404);
         res.send( { error: "Event not found" } );
     }
 });

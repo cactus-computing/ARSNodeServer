@@ -22,8 +22,8 @@ router.get('/:id', function(req, res, next) {
   if (user) {
     res.send(user);
   } else {
-    res.statusCode = 404
-    res.send( { error: "User doesn't exist" } )
+    res.status(404);
+    res.send( { error: "User not found" } )
   }
 });
 

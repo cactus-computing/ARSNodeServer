@@ -26,10 +26,10 @@ router.post('/', function(req, res, next) {
     // Found user at that lan and lon.
     if (event.user) {
         events.push(event);
-        res.send(event);
+        res.body = event;
+        next();
     } else {
-        res.status(404);
-        res.send( { error: "User not found" } )
+        res.sendStatus(404);
     }
 });
 
@@ -40,16 +40,17 @@ router.get('/:id', function(req, res, next) {
     });
 
     if (event) {
-        res.send(event);
+        res.body = event;
+        next();
     } else {
-        res.status(404);
-        res.send( { error: "Event not found" } );
+        res.sendStatus(404);
     }
 });
 
 /* GET all recycling events */
 router.get('/', function(req, res, next) {
-    res.send( { events } );
+    res.body = { events };
+    next();
 })
 
 /* GET all recycling events by a user id */
@@ -57,7 +58,8 @@ router.get('/user/:userId', function(req, res, next) {
     var userEvents = events.filter(elem => {
         return elem.user == req.params.userId;
     })
-    res.send( { 'events': userEvents } );
+    res.body = { 'events': userEvents };
+    next();
 });
 
 /* GET all recycling events by arduino id */
@@ -65,7 +67,8 @@ router.get('/arduino/:arduinoId', function(req, res, next) {
     var arduinoEvents = events.filter(elem => {
         return elem.arduino == req.params.arduinoId;
     })
-    res.send( { 'events': arduinoEvents } )
+    res.body = { 'events': arduinoEvents };
+    next();
 });
 
 module.exports = router;

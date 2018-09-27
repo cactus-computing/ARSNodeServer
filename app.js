@@ -7,16 +7,24 @@ var eventsRouter = require('./routes/events');
 var usersRouter = require('./routes/users');
 var auth = require('./auth')
 
+var encrypt = require('./routes/crypto/encrypt')
+var decrypt = require('./routes/crypto/decrypt')
+
 var app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
-// Will authenticate user before the other routers run
+// Authenticate the Token
 app.use(auth);
+// Decrypt the POST body
+app.use(decrypt);
+
+// Handle the data
 app.use('/events', eventsRouter);
 app.use('/users', usersRouter);
+
+// Encrypt sent data
+app.use(encrypt);
 
 module.exports = app;

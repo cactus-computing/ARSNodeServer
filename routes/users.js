@@ -20,16 +20,17 @@ router.get('/:id', function(req, res, next) {
   })
 
   if (user) {
-    res.send(user);
+    res.body = user;
+    next()
   } else {
-    res.status(404);
-    res.send( { error: "User not found" } )
+    res.sendStatus(404);
   }
 });
 
 /* GET all users. */
 router.get('/', function(req, res, next) {
-  res.send( { users } )
+  res.body = {users};
+  next();
 });
 
 module.exports = router;

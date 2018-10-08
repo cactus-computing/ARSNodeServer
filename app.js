@@ -1,6 +1,12 @@
+var mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://root:26dRUWfSBuVcsPnI@dryad-j3kir.mongodb.net/dryad?retryWrites=true');
+
+var db = mongoose.connection;
+db.on('open', () => {
+    console.log("Mongo Connected");
+});
+
 var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var eventsRouter = require('./routes/events');

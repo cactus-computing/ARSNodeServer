@@ -1,36 +1,37 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
 
-var users = 
-  [
-    {
-      id: 1337,
-      name: 'Jose Miguel'
-    },
-    {
-      id: 212,
-      name: 'Juan Pastel'
-    }
-  ]
+var User = mongoose.model('User', require('../schema/User'))
 
 /* GET a user. */
 router.get('/:id', function(req, res, next) {
-  var user = users.find(elem => {
-    return elem.id == req.params.id;
-  })
-
-  if (user) {
-    res.body = user;
-    next()
-  } else {
-    res.sendStatus(404);
-  }
+  User.findOne({id: req.params.id}).exec((err, user) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(404);
+    } else {
+      if (!user) {
+        res.sendStatus(404)
+        return;
+      }
+      res.body = user;
+      next();
+    }
+  });
 });
 
 /* GET all users. */
 router.get('/', function(req, res, next) {
-  res.body = {users};
-  next();
+  User.find({}, (err, users) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(404);
+    } else {
+      res.body = users;
+      next();
+    }
+  })
 });
 
 module.exports = router;

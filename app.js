@@ -19,7 +19,7 @@ var decrypt = require('./routes/crypto/decrypt')
 var app = express();
 
 app.use(logger('dev'));
-app.use(express.json());
+app.use(require('body-parser').text())
 
 // Authenticate the Token
 app.use(auth);

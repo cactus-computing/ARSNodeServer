@@ -6,18 +6,7 @@ var router = express.Router();
 /* Decrypt incoming body */
 router.use(function(req, res, next) {
     if (req.method == 'POST') {
-        // If data is a String then it's a encrypted JSON Object
-        if (typeof req.body.data == "string") {
-            var decrypted = decrypt(req.body.data);
-            if (!decrypted) {
-                res.sendStatus(400);
-                return;
-            }
-
-            req.body = JSON.parse(decrypted);
-        } else {
-            req.body = req.body.data;
-        }
+        req.body = JSON.parse(decrypt(req.body));
     }
     next();
 });

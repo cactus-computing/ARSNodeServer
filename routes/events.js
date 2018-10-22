@@ -5,6 +5,8 @@ const uuidv4 = require('uuid/v4');
 var events = []
 
 /* POST a recycling event */
+
+// Missing variable on url req?
 router.post('/', function(req, res, next) {
     var event = {
         id: uuidv4(),

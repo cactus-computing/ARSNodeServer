@@ -7,14 +7,14 @@ Edit file by typing
 ```
 sudo nano /boot/cmdline.txt
 ```
-and delete `console=ttyAMA0, 114200` sentence. You can save by pressing Ctrl X, the Y to accept and enter.
+and delete `console=ttyS0, 114200` sentence. You can save by pressing Ctrl X, the Y to accept and enter.
 
 ## Edditing inittab file
 Now we need to change the file
 ```
 sudo nano /etc/inittab
 ```
-and comment out the line which has `ttyAMA0` in it by placing a # symbol before that line.
+and comment out the line which has `ttyS0` in it by placing a # symbol before that line.
 
 > REBOOT YOUR PI
 
@@ -32,13 +32,13 @@ to install software.
 Type the following commands on a terminal window on your pi
 
 ```
-stty -F /dev/ttyAMA0 9600
+stty -F /dev/ttyS0 9600
 ```
 
 start GPSD by running
 
 ```
-sudo gpsd /dev/ttyAMA0 -F /ver/run/gpsd.sock
+sudo gpsd /dev/ttyS0 -F /ver/run/gpsd.sock
 ```
 
 display GPS info by typing

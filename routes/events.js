@@ -20,7 +20,7 @@ router.post('/', function(req, res, next) {
         weight: req.body['weight'],
 
         time: Date.now(),
-        arduino: req.arduino.id
+        arduino: req.device.id
     }
 
     // TODO: Actually get the user from lat and lon

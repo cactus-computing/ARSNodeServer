@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-var User = mongoose.model('User', require('../schema/User'))
+var User = require('../schema/User').user;
 
 /* GET a user. */
 router.get('/:id', function(req, res, next) {
@@ -15,8 +15,7 @@ router.get('/:id', function(req, res, next) {
         res.sendStatus(404)
         return;
       }
-      res.body = user;
-      next();
+      res.send(users)
     }
   });
 });
@@ -28,8 +27,7 @@ router.get('/', function(req, res, next) {
       console.log(err);
       res.sendStatus(404);
     } else {
-      res.body = users;
-      next();
+      res.send(users)
     }
   })
 });

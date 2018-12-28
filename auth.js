@@ -2,7 +2,7 @@ var express = require('express');
 var jwt = require('jsonwebtoken');
 var router = express.Router();
 
-const devices = [
+const arduinos = [
     {
         id: '9dki80',
     }
@@ -17,11 +17,11 @@ router.use(getToken, function(req, res, next) {
         }
 
         // Check if the token type
-        var device = devices.find(elem => {
+        var arduino = arduinos.find(elem => {
             return data.id == elem.id;
         });
-        if (device) {
-            req.device = device;
+        if (arduino) {
+            req.device = arduino;
             next();
         } else {
             res.sendStatus(400);

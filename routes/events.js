@@ -1,70 +1,50 @@
 var express = require('express');
 var router = express.Router();
-const uuidv4 = require('uuid/v4');
 
-var events = []
+var User = require('../schema/User').user;
+var Event = require('../schema/User').event;
 
 /* POST a recycling event */
-
-// Missing variable on url req?
 router.post('/', function(req, res, next) {
-    var event = {
-        id: uuidv4(),
+    User.aggregate(
+        [
+            { "$geoNear": {
+                "near": {
+                    "type": "Point",
+                    "coordinates": [req.body['lon'], req.body['lat']]
+                },
+                "distanceField": "distance",
+                "spherical": true,
+                "maxDistance": 10 // In  Meters
+            }}
+        ],
 
-        lat: req.body['lat'],
-        lon: req.body['lon'],
-
-        user: -1,
-
-        material: req.body['material'],
-        weight: req.body['weight'],
-
-        time: Date.now(),
-        arduino: req.device.id
-    }
-
-    // TODO: Actually get the user from lat and lon
-
-    // Found user at that lan and lon.
-    if (event.user) {
-        res.send(event);
-    } else {
-        res.sendStatus(404);
-    }
-});
-
-/* GET a recycling event */
-router.get('/:id', function(req, res, next) {
-    var event = events.find(elem => {
-        return elem.id == req.params.id;
-    });
-
-    if (event) {
-        res.send(event);
-    } else {
-        res.sendStatus(404);
-    }
-});
-
-/* GET all recycling events */
-router.get('/', function(req, res, next) {
-    res.send({ events });
-})
-
-/* GET all recycling events by a user id */
-router.get('/user/:userId', function(req, res, next) {
-    var userEvents = events.filter(elem => {
-        return elem.user == req.params.userId;
-    })
-    res.send({ 'events': userEvents });
-});
-
-/* GET all recycling events by arduino id */
-router.get('/arduino/:arduinoId', function(req, res, next) {
-    var arduinoEvents = events.filter(elem => {
-        return elem.arduino == req.params.arduinoId;
-    })
-    res.send({ 'events': arduinoEvents });
+        function(err, results) {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+            } else {
+                if (results.length == 0) {
+                    res.sendStatus(404)
+                } else {
+                    var event = new Event({
+                        location: {
+                            coordinates: [req.body['lon'], req.body['lat']]
+                        },
+                        data: {
+                            material: req.body.material,
+                            weight: req.body.weight
+                        }
+                    });
+                    User.findById(results[0]._id, (err, user) => {
+                        user.events.push(event);
+                        user.save();
+                    })
+                    res.send(results[0]);
+                }
+            }
+        }
+    )
 });
 
 module.exports = router;

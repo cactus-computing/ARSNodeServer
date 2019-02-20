@@ -1,3 +1,3 @@
-# Dryad
+# Automated Residue Scale
 
-### NodeJS - Express REST API
+## REST Service

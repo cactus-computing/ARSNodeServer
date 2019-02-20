@@ -10,7 +10,6 @@ var express = require('express');
 var logger = require('morgan');
 
 var eventsRouter = require('./routes/events');
-var usersRouter = require('./routes/users');
 var auth = require('./auth')
 
 var app = express();
@@ -18,11 +17,10 @@ var app = express();
 app.use(logger('dev'));
 app.use(express.json())
 
-// Authenticate the Token
+// Authenticate the collector
 app.use(auth);
 
-// Handle the data
-app.use('/events', eventsRouter);
-app.use('/users', usersRouter);
+// Handle event data
+app.use('/event', eventsRouter);
 
 module.exports = app;

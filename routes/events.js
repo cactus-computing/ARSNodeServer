@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var User = require('../schema/User').user;
-var Event = require('../schema/User').event;
+var User = require('../schema/User');
+var Event = require('../schema/Event');
 
 /* POST a recycling event */
 router.post('/', function(req, res, next) {
@@ -15,7 +15,7 @@ router.post('/', function(req, res, next) {
                 },
                 "distanceField": "distance",
                 "spherical": true,
-                "maxDistance": 10 // In  Meters
+                "maxDistance": 10 // In Meters
             }}
         ],
 
@@ -28,19 +28,24 @@ router.post('/', function(req, res, next) {
                     res.sendStatus(404)
                 } else {
                     var event = new Event({
-                        location: {
-                            coordinates: [req.body['lon'], req.body['lat']]
+                        user: {
+                            id: results[0].id,
+                            name: results[0].name,
+                        },
+                        collector: {
+                            id: req.collector,
+                            location: {
+                                coordinates: [req.body['lon'], req.body['lat']]
+                            }
                         },
                         data: {
                             material: req.body.material,
                             weight: req.body.weight
                         }
                     });
-                    User.findById(results[0]._id, (err, user) => {
-                        user.events.push(event);
-                        user.save();
-                    })
-                    res.send(results[0]);
+                    event.save().then(() => {
+                        res.send(event);
+                    });
                 }
             }
         }

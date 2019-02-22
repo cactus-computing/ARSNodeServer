@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
 const uuidv4 = require('uuid/v4');
 
-var Event = mongoose.Schema({
-    // Unique ID assigned to this Event
+var Pickup = mongoose.Schema({
+    // Unique ID assigned to this Pickup
     id: {
         type: String,
         default: uuidv4()
     },
-    // User credited for this event
+    // User credited for this pickup
     user: {
         id: String,
-        name: String,
     },
     // Information of the collector
     collector: {
@@ -27,11 +26,9 @@ var Event = mongoose.Schema({
             }
         },
     },
-    // What material and weight was used for this event
-    data: {
-        material: String,
-        weight: Number,
-    },
+    // What material and weight was used for this pickup
+    material: String,
+    weight: Number,
     // When this was executed
     time: {
         type: Date,
@@ -39,4 +36,4 @@ var Event = mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Event', Event);
+module.exports = mongoose.model('Pickup', Pickup);

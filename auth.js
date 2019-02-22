@@ -2,7 +2,7 @@ var express = require('express');
 var jwt = require('jsonwebtoken');
 var router = express.Router();
 
-const JWT_SECRET = process.env.JWT_SECRET || "dirtysocks";
+const JWT_SECRET = require('./config.json').jwt;
 
 // TODO: Connect to Database
 const collectors = [
@@ -24,7 +24,7 @@ router.use(getToken, function(req, res, next) {
             return data.id == elem.id;
         });
         if (collector) {
-            req.collector = collector;
+            req.collector = collector.id;
             next();
         } else {
             res.sendStatus(400);

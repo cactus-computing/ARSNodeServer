@@ -1,0 +1,10 @@
+{
+    "mongo": {
+        "host": "192.168.43.1",
+        "port": 27017,
+        "db": "reforest",
+        "user": "",
+        "pswd": ""
+    },
+    "jwt": "dirtysocks"
+}

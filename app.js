@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://root:26dRUWfSBuVcsPnI@dryad-j3kir.mongodb.net/dryad?retryWrites=true');
+var config = require('./config.json')
+
+mongoose.connect('mongodb://' + config.mongo.host + ':' + config.mongo.host + '/' + config.mongo.db, {useNewUrlParser: true});
 
 var db = mongoose.connection;
 db.on('open', () => {
@@ -9,7 +11,7 @@ db.on('open', () => {
 var express = require('express');
 var logger = require('morgan');
 
-var eventsRouter = require('./routes/events');
+var eventsRouter = require('./routes/pickup');
 var auth = require('./auth')
 
 var app = express();
@@ -20,7 +22,7 @@ app.use(express.json())
 // Authenticate the collector
 app.use(auth);
 
-// Handle event data
-app.use('/event', eventsRouter);
+// Handle pickup data
+app.use('/pickup', eventsRouter);
 
 module.exports = app;

@@ -1,9 +1,8 @@
 var mongoose = require('mongoose');
 var config = require('./config.json')
 
-mongoose.connect('mongodb://' + config.mongo.host + ':' + config.mongo.host, 
+mongoose.connect('mongodb://' + config.mongo.host + ':' + config.mongo.host + '/' + config.mongo.db, 
     {
-        dbName: config.mongo.db, 
         user: config.mongo.user, 
         pass: config.mongo.pass, 
         useNewUrlParser: true

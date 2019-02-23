@@ -9,7 +9,10 @@ router.post('/', function(req, res, next) {
     User.findOne()
         .where("home.location")
         .near({
-                center: [req.body.location[0], req.body.location[1]], 
+                center: {
+                    type: "Point",
+                    coordinates: [req.body.location[0], req.body.location[1]]
+                }, 
                 spherical: true,
                 maxDistance: 30 // Meters
             })

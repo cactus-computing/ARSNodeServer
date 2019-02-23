@@ -4,7 +4,7 @@
         "port": 27017,
         "db": "reforest",
         "user": "",
-        "pswd": ""
+        "pass": ""
     },
     "jwt": "dirtysocks"
 }

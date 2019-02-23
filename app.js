@@ -1,7 +1,13 @@
 var mongoose = require('mongoose');
 var config = require('./config.json')
 
-mongoose.connect('mongodb://' + config.mongo.host + ':' + config.mongo.host + '/' + config.mongo.db, {useNewUrlParser: true});
+mongoose.connect('mongodb://' + config.mongo.host + ':' + config.mongo.host, 
+    {
+        dbName: config.mongo.db, 
+        user: config.mongo.user, 
+        pass: config.mongo.pass, 
+        useNewUrlParser: true
+    });
 
 var db = mongoose.connection;
 db.on('open', () => {

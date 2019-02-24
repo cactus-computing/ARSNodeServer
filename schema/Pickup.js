@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
-const uuidv4 = require('uuid/v4');
 
 var Pickup = mongoose.Schema({
-    // Unique ID assigned to this Pickup
-    id: {
-        type: String,
-        default: uuidv4()
-    },
     // User credited for this pickup
     user: {
         id: String,
@@ -26,7 +20,6 @@ var Pickup = mongoose.Schema({
             }
         },
     },
-    // What material and weight was used for this pickup
     material: String,
     weight: Number,
     // When this was executed

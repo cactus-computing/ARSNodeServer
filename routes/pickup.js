@@ -23,7 +23,7 @@ router.post('/', function(req, res, next) {
             }
             var pickup = new Pickup({
                 user: {
-                    id: user.id,
+                    id: user._id,
                 },
                 collector: {
                     id: req.collector,

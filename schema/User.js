@@ -1,10 +1,22 @@
 var mongoose = require('mongoose');
 
 var User = mongoose.Schema({
-    // Unique ID assigned to this User
-    id: String,
     // User name
-    name: String,
+    name: {
+      first: {
+        type: String,
+        required: true
+      },
+      last: {
+        type: String,
+        required: true
+      }
+    },
+    // Email
+    email: {
+      type: String,
+      required: true
+    },
     // Home Information
     home: {
         address: String,

@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
                     id: user._id,
                 },
                 collector: {
-                    id: req.collector,
+                    id: req.collector._id,
                     location: {
                         type: "Point",
                         coordinates: [req.body.location[0], req.body.location[1]]

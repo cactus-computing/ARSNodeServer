@@ -4,15 +4,10 @@ var router = express.Router();
 
 const JWT_SECRET = require('./config.json').jwt;
 
-// TODO: Connect to Database
-const collectors = [
-    {
-        id: '9dki80',
-    }
-]
+const Collectors = require('./schema/Collector');
 
 /* Authenticate Collector */
-router.use(getToken, function(req, res, next) {
+router.use(stripToken, function(req, res, next) {
     jwt.verify(req.token, JWT_SECRET, (err, data) => {
         if (err) {
             res.sendStatus(400);
@@ -20,20 +15,19 @@ router.use(getToken, function(req, res, next) {
         }
 
         // Check if the token type
-        var collector = collectors.find(elem => {
-            return data.id == elem.id;
+        Collectors.findById(data.id, (err, collector) => {
+            if (collector) {
+                req.collector = collector;
+                next();
+            } else {
+                res.sendStatus(400);
+            }
         });
-        if (collector) {
-            req.collector = collector.id;
-            next();
-        } else {
-            res.sendStatus(400);
-        }
     });
 });
 
 /* Strip token from auth header */
-function getToken(req, res, next) {
+function stripToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     if (authHeader) {
         const bearer = authHeader.split(' ')[1];
